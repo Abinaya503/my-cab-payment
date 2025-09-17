@@ -1,0 +1,24 @@
+<div class="upi-container">
+  <div class="upi-box">
+  <div class="upi-card">
+    <h2 class="title">UPI Payment</h2>
+ 
+    <p class="ride-info">
+      <strong>Ride ID:</strong> {{ rideId }}
+    </p>
+    <p class="amount">
+      ₹{{ amount }}
+    </p>
+ 
+    <div class="qr-wrapper">
+      <img [src]="qrUrl" alt="UPI QR Code">
+    </div>
+ 
+    <p class="note">Scan with Google Pay, PhonePe, Paytm or any UPI app</p>
+ 
+    <button class="pay-now-btn">
+      Pay Now in UPI App
+    </button>
+  </div>
+</div>
+</div>
