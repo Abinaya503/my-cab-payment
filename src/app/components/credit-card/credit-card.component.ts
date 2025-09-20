@@ -13,27 +13,27 @@ import { PaymentMethod, PaymentRequest } from '../../models/payment.model';
   styleUrls: ['./credit-card.component.css']
 })
 export class CreditCardComponent implements OnInit {
-  
+
   // Credit card form data
   cardName: string = '';
   cardNumber: string = '';
   cardMonth: string = '';
   cardYear: string = '';
   cardCvv: string = '';
-  
+
   // Component state
   isCardFlipped: boolean = false;
   isLoading: boolean = false;
   errorMessage: string = '';
-  
+
   // Payment data from route
   rideId: string = '';
   amount: number = 0;
-  
+
   // Card validation
   minCardYear: number = new Date().getFullYear();
   minCardMonth: number = 1;
-  
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -53,13 +53,13 @@ export class CreditCardComponent implements OnInit {
    */
   getCardType(): string {
     const number = this.cardNumber.replace(/\s/g, '');
-    
+
     if (/^4/.test(number)) return 'visa';
     if (/^(34|37)/.test(number)) return 'amex';
     if (/^5[1-5]/.test(number)) return 'mastercard';
     if (/^6011/.test(number)) return 'discover';
     if (/^9792/.test(number)) return 'troy';
-    
+
     return 'visa'; // default
   }
 
@@ -78,7 +78,7 @@ export class CreditCardComponent implements OnInit {
     const mask = this.getCardMask();
     let formatted = '';
     let numberIndex = 0;
-    
+
     for (let i = 0; i < mask.length && numberIndex < number.length; i++) {
       if (mask[i] === '#') {
         formatted += number[numberIndex];
@@ -87,7 +87,7 @@ export class CreditCardComponent implements OnInit {
         formatted += mask[i];
       }
     }
-    
+
     return formatted;
   }
 
@@ -98,13 +98,13 @@ export class CreditCardComponent implements OnInit {
     let value = event.target.value.replace(/\s/g, '');
     // Remove non-numeric characters
     value = value.replace(/\D/g, '');
-    
+
     // Limit length based on card type
     const maxLength = this.getCardType() === 'amex' ? 15 : 16;
     if (value.length > maxLength) {
       value = value.substring(0, maxLength);
     }
-    
+
     this.cardNumber = value;
   }
 
@@ -144,27 +144,27 @@ export class CreditCardComponent implements OnInit {
       this.errorMessage = 'Please enter cardholder name';
       return false;
     }
-    
+
     if (!this.cardNumber || this.cardNumber.length < 13) {
       this.errorMessage = 'Please enter a valid card number';
       return false;
     }
-    
+
     if (!this.cardMonth) {
       this.errorMessage = 'Please select expiry month';
       return false;
     }
-    
+
     if (!this.cardYear) {
       this.errorMessage = 'Please select expiry year';
       return false;
     }
-    
+
     if (!this.cardCvv || this.cardCvv.length < 3) {
       this.errorMessage = 'Please enter a valid CVV';
       return false;
     }
-    
+
     // Check if card is expired
     const currentDate = new Date();
     const expiryDate = new Date(parseInt(this.cardYear), parseInt(this.cardMonth) - 1);
@@ -172,7 +172,7 @@ export class CreditCardComponent implements OnInit {
       this.errorMessage = 'Card has expired';
       return false;
     }
-    
+
     return true;
   }
 
@@ -183,15 +183,16 @@ export class CreditCardComponent implements OnInit {
     if (!this.validateForm()) {
       return;
     }
-    
+
     this.isLoading = true;
     this.errorMessage = '';
-    
+
     // Simulate payment processing
     setTimeout(() => {
       // Simulate 90% success rate
-      const isSuccess = Math.random() > 0.1;
-      
+      // const isSuccess = Math.random() > 0.1;
+      const isSuccess = true;
+
       if (isSuccess) {
         // Create payment request
         const paymentRequest: PaymentRequest = {
@@ -200,7 +201,7 @@ export class CreditCardComponent implements OnInit {
           method: PaymentMethod.CARD,
           amount: this.amount
         };
-        
+
         // Process payment
         this.paymentService.processPayment(paymentRequest).subscribe({
           next: (payment) => {
@@ -247,7 +248,7 @@ export class CreditCardComponent implements OnInit {
     const mask = this.getCardMask();
     let masked = '';
     let numberIndex = 0;
-    
+
     for (let i = 0; i < mask.length; i++) {
       if (mask[i] === '#') {
         if (numberIndex < formatted.length) {
@@ -265,7 +266,7 @@ export class CreditCardComponent implements OnInit {
         masked += mask[i];
       }
     }
-    
+
     return masked;
   }
 

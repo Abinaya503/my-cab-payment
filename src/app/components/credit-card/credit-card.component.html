@@ -8,10 +8,7 @@
   </div>
 
   <!-- Error Message -->
-  <div *ngIf="errorMessage" class="error-message">
-    <i class="error-icon">⚠️</i>
-    {{ errorMessage }}
-  </div>
+
 
   <!-- Payment Summary -->
   <div class="payment-summary">
@@ -39,14 +36,14 @@
                 <div class="chip"></div>
               </div>
               <div class="card-item__type">
-                <img *ngIf="getCardType()" 
+                <img *ngIf="getCardType()"
                      [src]="'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/' + getCardType() + '.png'"
                      [alt]="getCardType()" class="card-item__typeImg">
               </div>
             </div>
             <div class="card-item__number">
-              <span *ngFor="let char of getMaskedCardNumber().split(''); let i = index" 
-                    class="card-item__numberItem" 
+              <span *ngFor="let char of getMaskedCardNumber().split(''); let i = index"
+                    class="card-item__numberItem"
                     [class.-active]="i === getDisplayCardNumber().length">
                 {{ char }}
               </span>
@@ -71,7 +68,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Back of Card -->
         <div class="card-item__side -back">
           <div class="card-item__cover">
@@ -84,7 +81,7 @@
               <span *ngFor="let char of cardCvv.split('')" class="cvv-char">*</span>
             </div>
             <div class="card-item__type">
-              <img *ngIf="getCardType()" 
+              <img *ngIf="getCardType()"
                    [src]="'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/' + getCardType() + '.png'"
                    [alt]="getCardType()" class="card-item__typeImg">
             </div>
@@ -97,38 +94,38 @@
     <div class="card-form__inner">
       <div class="card-input">
         <label for="cardNumber" class="card-input__label">Card Number</label>
-        <input type="text" 
-               id="cardNumber" 
-               class="card-input__input" 
+        <input type="text"
+               id="cardNumber"
+               class="card-input__input"
                [(ngModel)]="cardNumber"
                (input)="onCardNumberChange($event)"
                placeholder="1234 5678 9012 3456"
                maxlength="19">
       </div>
-      
+
       <div class="card-input">
         <label for="cardName" class="card-input__label">Card Holder Name</label>
-        <input type="text" 
-               id="cardName" 
-               class="card-input__input" 
+        <input type="text"
+               id="cardName"
+               class="card-input__input"
                [(ngModel)]="cardName"
                placeholder="John Doe">
       </div>
-      
+
       <div class="card-form__row">
         <div class="card-form__col">
           <div class="card-form__group">
             <label class="card-input__label">Expiration Date</label>
-            <select class="card-input__input -select" 
+            <select class="card-input__input -select"
                     [(ngModel)]="cardMonth">
               <option value="" disabled>Month</option>
-              <option *ngFor="let month of getMonths()" 
+              <option *ngFor="let month of getMonths()"
                       [value]="month.value"
                       [disabled]="month.disabled">
                 {{ month.label }}
               </option>
             </select>
-            <select class="card-input__input -select" 
+            <select class="card-input__input -select"
                     [(ngModel)]="cardYear"
                     (change)="onYearChange()">
               <option value="" disabled>Year</option>
@@ -141,9 +138,9 @@
         <div class="card-form__col -cvv">
           <div class="card-input">
             <label for="cardCvv" class="card-input__label">CVV</label>
-            <input type="text" 
-                   class="card-input__input" 
-                   id="cardCvv" 
+            <input type="text"
+                   class="card-input__input"
+                   id="cardCvv"
                    [(ngModel)]="cardCvv"
                    (focus)="onCvvFocus()"
                    (blur)="onCvvBlur()"
@@ -153,13 +150,18 @@
         </div>
       </div>
 
-      <button class="card-form__button" 
-              (click)="processPayment()" 
+      <button class="card-form__button"
+              (click)="processPayment()"
               [disabled]="isLoading">
         <span *ngIf="isLoading" class="loading-spinner"></span>
         <span *ngIf="!isLoading">Pay ₹{{ amount | number:'1.2-2' }}</span>
         <span *ngIf="isLoading">Processing Payment...</span>
       </button>
     </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="error-icon">⚠️</i>
+    {{ errorMessage }}
   </div>
 </div>

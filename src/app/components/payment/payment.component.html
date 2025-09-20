@@ -1,22 +1,22 @@
 <div class="payment-container">
-  <div class="header">
+  <div *ngIf="!showReceipt && !payment" class="header">
     <h1>Payment Processing</h1>
     <p>Complete your ride payment securely</p>
   </div>
- 
+
   <!-- Error Message -->
   <div *ngIf="errorMessage" class="error-message">
     <i class="error-icon">⚠️</i>
     {{ errorMessage }}
   </div>
- 
+
   <!-- Payment Form -->
-  <div *ngIf="!showReceipt" class="payment-form">@if(display){
-   <div class="form-section">
-    <h2>Ride Details</h2>
-    
-   </div> 
- 
+  <div *ngIf="!showReceipt && !payment" class="payment-form">@if(display){
+    <div class="form-section">
+      <h2>Ride Details</h2>
+
+    </div>
+
     <!-- Fare Calculation -->
     <div *ngIf="fareCalculation" class="fare-calculation">
       <h2>Fare Breakdown</h2>
@@ -29,7 +29,7 @@
           <span class="label">Distance ({{ getSelectedRideDistance() }} km):</span>
           <span class="amount">₹{{ fareCalculation.distanceFare }}</span>
         </div>
-       
+
         <div class="fare-item">
           <span class="label">Tax (18% GST):</span>
           <span class="amount">₹{{ fareCalculation.tax | number:'1.2-2' }}</span>
@@ -43,7 +43,7 @@
     <div align="center">
       <button (click)="hide()" class="pay-button">pay</button>
     </div>}
-    @else{
+  @else{
     <!-- Payment Method Selection -->
     <div *ngIf="fareCalculation" class="form-section">
       <h2>Payment Method</h2>
@@ -69,7 +69,7 @@
         </div>
       </div>
     </div>
- 
+
     <!-- Payment Button -->
     <div *ngIf="fareCalculation" class="payment-actions">
       <button
@@ -83,13 +83,13 @@
       </button>
     </div>}
   </div>
- 
+
   <!-- Payment Success -->
-  <div *ngIf="payment && payment.status === 'COMPLETED'" class="payment-success">
+  <div *ngIf="payment && payment.status === 'COMPLETED' && !showReceipt" class="payment-success">
     <div class="success-icon">✅</div>
     <h2>Payment Successful!</h2>
     <p>Your payment has been processed successfully.</p>
-   
+
     <div class="payment-details">
       <div class="detail-item">
         <span class="label">Payment ID:</span>
@@ -114,26 +114,25 @@
         <span class="value">{{ payment.timestamp | date:'medium' }}</span>
       </div>
     </div>
- 
+
     <div class="success-actions">
       <button (click)="generateReceipt()" class="receipt-button">
-        Generate Receipt
+        Download Receipt
       </button>
-        <button (click)="printReceipt()" class="print-button">Print Receipt</button>
       <button (click)="resetForm()" class="new-payment-button">
         New Payment
       </button>
     </div>
   </div>
- 
- <!-- Receipt -->
-  <div *ngIf="showReceipt && receipt" class="receipt-container">
+
+  <!-- Receipt -->
+  <div *ngIf="showReceipt && receipt" class="receipt-container" #receiptContent>
     <div class="receipt">
       <div class="receipt-header">
         <h2>Payment Receipt</h2>
         <div class="receipt-id">Receipt #{{ receipt.receiptId }}</div>
       </div>
- 
+
       <div class="receipt-content">
         <div class="receipt-section">
           <h3>Ride Information</h3>
@@ -156,7 +155,7 @@
             </div>
           </div>
         </div>
- 
+
         <div class="receipt-section">
           <h3>Payment Details</h3>
           <div class="receipt-details">
@@ -174,5 +173,197 @@
             </div>
           </div>
         </div>
- 
- 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="payment-container">-->
+<!--  <div class="header">-->
+<!--    <h1>Payment Processing</h1>-->
+<!--    <p>Complete your ride payment securely</p>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Error Message &ndash;&gt;-->
+<!--  <div *ngIf="errorMessage" class="error-message">-->
+<!--    <i class="error-icon">⚠️</i>-->
+<!--    {{ errorMessage }}-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Payment Form &ndash;&gt;-->
+<!--  <div *ngIf="!showReceipt" class="payment-form">@if(display){-->
+<!--   <div class="form-section">-->
+<!--    <h2>Ride Details</h2>-->
+
+<!--   </div>-->
+
+<!--    &lt;!&ndash; Fare Calculation &ndash;&gt;-->
+<!--    <div *ngIf="fareCalculation" class="fare-calculation">-->
+<!--      <h2>Fare Breakdown</h2>-->
+<!--      <div class="fare-details">-->
+<!--        <div class="fare-item">-->
+<!--          <span class="label">Base Fare:</span>-->
+<!--          <span class="amount">₹{{ fareCalculation.baseFare }}</span>-->
+<!--        </div>-->
+<!--        <div class="fare-item">-->
+<!--          <span class="label">Distance ({{ getSelectedRideDistance() }} km):</span>-->
+<!--          <span class="amount">₹{{ fareCalculation.distanceFare }}</span>-->
+<!--        </div>-->
+
+<!--        <div class="fare-item">-->
+<!--          <span class="label">Tax (18% GST):</span>-->
+<!--          <span class="amount">₹{{ fareCalculation.tax | number:'1.2-2' }}</span>-->
+<!--        </div>-->
+<!--        <div class="fare-item total">-->
+<!--          <span class="label">Total Amount:</span>-->
+<!--          <span class="amount">₹{{ fareCalculation.total | number:'1.2-2' }}</span>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div align="center">-->
+<!--      <button (click)="hide()" class="pay-button">pay</button>-->
+<!--    </div>}-->
+<!--    @else{-->
+<!--    &lt;!&ndash; Payment Method Selection &ndash;&gt;-->
+<!--    <div *ngIf="fareCalculation" class="form-section">-->
+<!--      <h2>Payment Method</h2>-->
+<!--      <div class="payment-methods">-->
+<!--        <div *ngFor="let method of paymentMethods" class="payment-method-option">-->
+<!--          <input-->
+<!--            type="radio"-->
+<!--            [id]="method"-->
+<!--            [value]="method"-->
+<!--            [(ngModel)]="selectedPaymentMethod"-->
+<!--            name="paymentMethod"-->
+<!--            class="payment-radio"-->
+<!--          >-->
+<!--          <label [for]="method" class="payment-label">-->
+<!--            <span class="method-icon">-->
+<!--              <span *ngIf="method === 'CARD'">💳</span>-->
+<!--              <span *ngIf="method === 'UPI'">📱</span>-->
+<!--              <span *ngIf="method === 'WALLET'">💰</span>-->
+<!--              <span *ngIf="method === 'CASH'">💵</span>-->
+<!--            </span>-->
+<!--            <span class="method-name">{{ getPaymentMethodDisplay(method) }}</span>-->
+<!--          </label>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Payment Button &ndash;&gt;-->
+<!--    <div *ngIf="fareCalculation" class="payment-actions">-->
+<!--      <button-->
+<!--        (click)="processPayment()"-->
+<!--        [disabled]="isLoading"-->
+<!--        class="pay-button"-->
+<!--      >-->
+<!--        <span *ngIf="isLoading" class="loading-spinner"></span>-->
+<!--        <span *ngIf="!isLoading">Pay ₹{{ fareCalculation.total | number:'1.2-2' }}</span>-->
+<!--        <span *ngIf="isLoading">Processing Payment...</span>-->
+<!--      </button>-->
+<!--    </div>}-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Payment Success &ndash;&gt;-->
+<!--  <div *ngIf="payment && payment.status === 'COMPLETED'" class="payment-success">-->
+<!--    <div class="success-icon">✅</div>-->
+<!--    <h2>Payment Successful!</h2>-->
+<!--    <p>Your payment has been processed successfully.</p>-->
+
+<!--    <div class="payment-details">-->
+<!--      <div class="detail-item">-->
+<!--        <span class="label">Payment ID:</span>-->
+<!--        <span class="value">{{ payment.paymentId }}</span>-->
+<!--      </div>-->
+<!--      <div class="detail-item">-->
+<!--        <span class="label">Amount:</span>-->
+<!--        <span class="value">₹{{ payment.amount | number:'1.2-2' }}</span>-->
+<!--      </div>-->
+<!--      <div class="detail-item">-->
+<!--        <span class="label">Method:</span>-->
+<!--        <span class="value">{{ getPaymentMethodDisplay(payment.method) }}</span>-->
+<!--      </div>-->
+<!--      <div class="detail-item">-->
+<!--        <span class="label">Status:</span>-->
+<!--        <span class="value" [class]="getPaymentStatusClass(payment.status)">-->
+<!--          {{ getPaymentStatusDisplay(payment.status) }}-->
+<!--        </span>-->
+<!--      </div>-->
+<!--      <div class="detail-item">-->
+<!--        <span class="label">Date:</span>-->
+<!--        <span class="value">{{ payment.timestamp | date:'medium' }}</span>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="success-actions">-->
+<!--      <button (click)="generateReceipt()" class="receipt-button">-->
+<!--        Generate Receipt-->
+<!--      </button>-->
+<!--      <button (click)="resetForm()" class="new-payment-button">-->
+<!--        New Payment-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!-- &lt;!&ndash; Receipt &ndash;&gt;-->
+<!--  <div *ngIf="showReceipt && receipt" class="receipt-container">-->
+<!--    <div class="receipt">-->
+<!--      <div class="receipt-header">-->
+<!--        <h2>Payment Receipt</h2>-->
+<!--        <div class="receipt-id">Receipt #{{ receipt.receiptId }}</div>-->
+<!--      </div>-->
+
+<!--      <div class="receipt-content">-->
+<!--        <div class="receipt-section">-->
+<!--          <h3>Ride Information</h3>-->
+<!--          <div class="receipt-details">-->
+<!--            <div class="detail-row">-->
+<!--              <span class="label">From:</span>-->
+<!--              <span class="value">{{ receipt.pickupLocation }}</span>-->
+<!--            </div>-->
+<!--            <div class="detail-row">-->
+<!--              <span class="label">To:</span>-->
+<!--              <span class="value">{{ receipt.dropoffLocation }}</span>-->
+<!--            </div>-->
+<!--            <div class="detail-row">-->
+<!--              <span class="label">Distance:</span>-->
+<!--              <span class="value">{{ receipt.distance }} km</span>-->
+<!--            </div>-->
+<!--            <div class="detail-row">-->
+<!--              <span class="label">Duration:</span>-->
+<!--              <span class="value">{{ receipt.duration }} minutes</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="receipt-section">-->
+<!--          <h3>Payment Details</h3>-->
+<!--          <div class="receipt-details">-->
+<!--            <div class="detail-row">-->
+<!--              <span class="label">Payment ID:</span>-->
+<!--              <span class="value">{{ receipt.paymentId }}</span>-->
+<!--            </div>-->
+<!--            <div class="detail-row">-->
+<!--              <span class="label">Payment Method:</span>-->
+<!--              <span class="value">{{ getPaymentMethodDisplay(receipt.method) }}</span>-->
+<!--            </div>-->
+<!--            <div class="detail-row">-->
+<!--              <span class="label">Date & Time:</span>-->
+<!--              <span class="value">{{ receipt.timestamp | date:'medium' }}</span>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+

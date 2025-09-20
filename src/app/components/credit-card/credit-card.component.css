@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600,700|Source+Sans+Pro:400,600,700&display=swap");
 
+:host {
+  display: block;
+  margin: 20px auto;
+  /*max-width: 400px;*/
+  background-color: #ddeefc;
+}
+
 .credit-card-container {
   max-width: 800px;
   margin: 0 auto;
@@ -508,95 +515,95 @@
   .credit-card-container {
     padding: 15px;
   }
-  
+
   .header h1 {
     font-size: 2rem;
   }
-  
+
   .back-button {
     position: relative;
     margin-bottom: 20px;
   }
-  
+
   .card-form__inner {
     padding: 25px;
     padding-top: 165px;
   }
-  
+
   .card-form__row {
     flex-wrap: wrap;
   }
-  
+
   .card-form__col {
     margin-right: 0;
     flex: unset;
     width: 100%;
     margin-bottom: 20px;
   }
-  
+
   .card-form__col:last-child {
     margin-bottom: 0;
   }
-  
+
   .card-form__col.-cvv {
     max-width: initial;
   }
-  
+
   .card-item {
     max-width: 310px;
     height: 220px;
     width: 90%;
   }
-  
+
   .card-item__number {
     font-size: 21px;
     margin-bottom: 15px;
     padding: 10px 10px;
   }
-  
+
   .card-item__numberItem {
     width: 13px;
   }
-  
+
   .card-item__numberItem.-active {
     width: 16px;
   }
-  
+
   .card-item__name {
     font-size: 16px;
   }
-  
+
   .card-item__date {
     font-size: 16px;
   }
-  
+
   .card-item__top {
     margin-bottom: 25px;
   }
-  
+
   .card-item__wrapper {
     padding: 20px 10px;
   }
-  
+
   .chip {
     width: 50px;
     height: 35px;
   }
-  
+
   .chip:before {
     width: 25px;
     height: 15px;
   }
-  
+
   .card-item__type {
     height: 40px;
     max-width: 90px;
   }
-  
+
   .card-item__band {
     margin-top: 20px;
   }
-  
+
   .card-item__cvvBand {
     height: 40px;
     margin-bottom: 20px;
@@ -608,48 +615,48 @@
     padding: 15px;
     padding-top: 165px;
   }
-  
+
   .card-item {
     height: 180px;
   }
-  
+
   .card-item__number {
     font-size: 19px;
     margin-bottom: 10px;
     padding: 10px 10px;
   }
-  
+
   .card-item__numberItem {
     width: 12px;
   }
-  
+
   .card-item__numberItem.-active {
     width: 8px;
   }
-  
+
   .card-item__top {
     margin-bottom: 15px;
   }
-  
+
   .chip {
     width: 40px;
     height: 30px;
   }
-  
+
   .chip:before {
     width: 20px;
     height: 12px;
   }
-  
+
   .card-item__type {
     height: 30px;
   }
-  
+
   .card-item__band {
     height: 40px;
     margin-top: 10px;
   }
-  
+
   .card-item__cvvBand {
     margin-bottom: 15px;
   }
